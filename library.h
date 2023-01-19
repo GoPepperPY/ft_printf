@@ -6,7 +6,7 @@
 /*   By: goda-sil <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 15:33:40 by goda-sil          #+#    #+#             */
-/*   Updated: 2023/01/18 17:20:49 by goda-sil         ###   ########.fr       */
+/*   Updated: 2023/01/19 17:45:40 by goda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,9 @@ int     identify_flag(va_list   argument, const char type);
 
 int     print_string(char *string);
 int     print_decimal_integer(int number);
+int	print_decimal_unsigned(unsigned int number);
+int	print_hex(unsigned int number, char type);
+int	counter_length(unsigned int number, int divider);
+int	print_pointer(uintptr_t pointer);
 
 #endif
