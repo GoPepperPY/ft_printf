@@ -15,10 +15,10 @@
 
 int main(void)
 {
-    	void *string = "ola";
+    	char *string = "sdadasd";
 	int counter = 0;
-	counter = ft_printf("%p", string);
-	printf("\n%d\n", counter);
-	printf("%p", string);
+	counter = ft_printf("%%", string);
+//	printf("\n%d\n", counter);
+//	printf("%X", string);
 	return (0);
 }

@@ -14,35 +14,37 @@
 
 int	identify_flag(va_list	argument, const char type)
 {
-	int	length;
+	int	len;
 	int	temporary;
 
-	length = 0;
+	len = 0;
 	if (type == 'c')
 	{
 		temporary = va_arg(argument, int);
-		return (write(1, &temporary, 1));	
+		return (write(1, &temporary, 1));
 	}
 	else if (type == 's')
-		length = length + print_string(va_arg(argument, char *));
+		len = len + print_string(va_arg(argument, char *));
 	else if (type == 'd' || type == 'i')
-		length = length + print_decimal_integer(va_arg(argument, int));
+		len = len + print_decimal_integer(va_arg(argument, int));
 	else if (type == 'u')
-		length = length + print_decimal_unsigned(va_arg(argument, unsigned int));
+		len = len + print_decimal_unsigned(va_arg(argument, unsigned int));
 	else if (type == 'x' || type == 'X')
-		length = length + print_hex(va_arg(argument, unsigned int), type);
+		len = len + print_hex(va_arg(argument, unsigned int), type);
 	else if (type == 'p')
+		len = len + print_pointer(va_arg(argument, unsigned long long));
+	else if (type == '%')
 	{
-		write(1, "0x", 2);
-		length = length + print_pointer(va_arg(argument, unsigned long long));
+		write(1, "%", 1);
+		return (1);
 	}
-	return (length);
+	return (len);
 }
 
 int	ft_printf(const char *input, ...)
 {
-	int		counter;
-	int		bytes;
+	int			counter;
+	int			bytes;
 	va_list		argument;
 
 	counter = 0;

@@ -18,29 +18,28 @@ int	print_string(char *string)
 
 	counter = 0;
 	if (string == NULL)
-		return (write(1, "NULL",1));
-	while(string[counter])
+		return (write(1, "NULL", 1));
+	while (string[counter])
 	{
 		write(1, &string[counter], 1);
 		counter++;
 	}
-	write(1, "\n",1);
+	write(1, "\n", 1);
 	return (counter);
 }
 
 int	print_decimal_integer(int number)
 {
 	char	character;
-	int	length;
-	int	divider;
+	int		length;
 
-	length = counter_length((unsigned int)number, divider);
+	length = counter_length((unsigned int)number);
 	if (number == -2147483648)
 		return (write(1, "-2147483648", 11));
 	else if (number < 0)
 	{
-	    write(1, "-", 1);
-	    print_decimal_integer(-number);
+		write(1, "-", 1);
+		print_decimal_integer(-number);
 	}
 	else if (number > 9)
 	{
@@ -59,16 +58,14 @@ int	print_decimal_integer(int number)
 int	print_decimal_unsigned(unsigned int number)
 {
 	char	character;
-	int	length;
-	int	divider;
+	int		length;
 
-	divider = 10;
-	length = counter_length(number, divider);
+	length = counter_length(number);
 	if (number > 9)
 	{
 		print_decimal_unsigned(number / 10);
 		character = number % 10 + '0';
-		write(1, &character,1);
+		write(1, &character, 1);
 	}
 	else if (number <= 9)
 	{
@@ -80,91 +77,44 @@ int	print_decimal_unsigned(unsigned int number)
 
 int	print_hex(unsigned int number, char type)
 {
-	char	character;
-	int	length;
-	int	divider;
-
-	divider = 10;
-	length = counter_length(number, divider);
 	if (number == 0)
-		return(write(1, "0", 1));
+		return (write(1, "0", 1));
+	if (number >= 16)
+	{
+		print_hex((number / 16), type);
+		print_hex((number % 16), type);
+	}
 	else
 	{
-		if (number >= 16)
+		if (number <= 9)
 		{
-			print_hex((number / 16), type);
-			print_hex((number % 16), type);
+			number = number + '0';
+			write(1, &number, 1);
 		}
 		else
 		{
-			if(number <= 9)
-			{
-				number = number + '0';
-				write(1, &number, 1);
-			}
-			else
-			{
-				if (type == 'x')
-				{
-					number = number - 10 + 'a';
-	    				write(1, &number, 1);
-				}
-				if (type == 'X')
-				{
-					number = number - 10 + 'A';
-	    				write(1, &number, 1);
-				}
-			}		
-		}
+			if (type == 'x')
+				number = number - 10 + 'a';
+			if (type == 'X')
+				number = number - 10 + 'A';
+			write(1, &number, 1);
+		}		
 	}
-	return (length - 1);
+	return (counter_length(number) + 1);
 }
 
-int	counter_length(unsigned int number, int divider)
+int	counter_length(unsigned int number)
 {
 	int	length;
 
 	length = 0;
-	if (number > 9)
+	if (number >= 9)
 	{
-		while (number > divider)
+		while (number > 10)
 		{
-			number = number / divider;
+			number = number / 10;
 			length++;
 		}
 	}
 	return (length);
-}
-
-int	length_pointer(uintptr_t pointer)
-{
-	int	length;
-
-	length = 0;
-	while (pointer != 0)
-	{
-		length++;
-		pointer = pointer / 16;
-	}
-	return (length);
-}
-
-int	print_pointer(uintptr_t pointer)
-{
-	int	divider;
-
-	divider = 16;
-	if (pointer == 0)
-		return (write(1, "(nil)", 5));
-	else
-	{
-		if (pointer >= 16)
-		{
-			print_pointer(pointer / 16);
-			print_pointer(pointer % 16);
-		}
-		else
-			print_hex(pointer, 'x');
-	}
-	return (length_pointer(pointer) + 2);
 }
